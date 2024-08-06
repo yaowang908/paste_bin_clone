@@ -25,7 +25,7 @@ jobs:
         USER: ${{ secrets.DO_USER }}
         IP: ${{ secrets.DO_IP }}
       run: |
-        ssh -o StrictHostKeyChecking=no $USER@$IP << 'EOF'
+        ssh -o StrictHostKeyChecking=no $DO_USER@$DO_IP << 'EOF'
           cd paste_bin_clone
           git pull origin main
           npm install

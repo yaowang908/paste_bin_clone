@@ -19,13 +19,17 @@ jobs:
       uses: webfactory/ssh-agent@v0.5.3
       with:
         ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
+        
+    - name: Add droplet to known_hosts
+      run: |
+        ssh-keyscan ${{ secrets.DO_IP }} >> ~/.ssh/known_hosts
+        
     - name: Deploy
       env:
-        USER: ${{ secrets.DO_USER }}
-        IP: ${{ secrets.DO_IP }}
+        DO_USER: ${{ secrets.DO_USER }}
+        DO_IP: ${{ secrets.DO_IP }}
       run: |
-        ssh -o StrictHostKeyChecking=no $DO_USER@$DO_IP << 'EOF'
+        ssh $DO_USER@$DO_IP << 'EOF'
           cd paste_bin_clone
           git pull origin main
           npm install

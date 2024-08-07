@@ -6,27 +6,58 @@ import { useRouter } from "next/navigation";
 import { parseExpiration } from "@/utils/parseExpiration";
 import TextArea from "@/components/TextArea";
 import HighlightedTextArea from "@/components/HightlightedTextArea";
+import { useMutation } from "@tanstack/react-query";
+
+export interface Paste {
+  id: string;
+  content: string;
+  expirationDate: number;
+  token: string;
+}
+
+const createPaste = async (paste: Paste) => {
+  const response = await fetch('/api/pastes', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(paste),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to create paste');
+  }
+
+  return response.json();
+};
 
 const Home: React.FC = () => {
   const [content, setContent] = useState('');
   const [expiration, setExpiration] = useState('10m');
   const router = useRouter();
 
+  const mutation = useMutation({
+    mutationFn: createPaste,
+    onSuccess: (data) => {
+      localStorage.setItem('pasteToken', data.token);
+      router.push(`/paste/${data.id}?token=${data.token}`);
+    },
+  });
+
   const handleSubmit = async () => {
     const token = uuidv4();
     const pasteId = uuidv4();
     const expirationDate = new Date().getTime() + parseExpiration(expiration);
 
-    const paste = { content, expirationDate, token };
-    localStorage.setItem(pasteId, JSON.stringify(paste));
-    localStorage.setItem('pasteToken', token);
+    const paste = { id: pasteId, content, expirationDate, token };
 
-    router.push(`/paste/${pasteId}?token=${token}`);
+    mutation.mutate(paste);
   };
 
   return (
     <div>
-      <HighlightedTextArea value={content} onChange={(e) => setContent(e.target.value)} readOnly={false} language="javascript" />
+      <TextArea value={content} onChange={(e) => setContent(e.target.value)} readOnly={false} />
+      {/* <HighlightedTextArea value={content} onChange={(e) => setContent(e.target.value)} readOnly={false} language="javascript" /> */}
       <form className="max-w-sm mx-auto">
         <label htmlFor="expirationTime" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
         <select

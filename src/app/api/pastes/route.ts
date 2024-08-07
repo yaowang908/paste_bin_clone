@@ -30,5 +30,5 @@ export async function POST(req: NextRequest) {
         )
       );
     });
-  });
+  }) as Promise<NextResponse>;
 }

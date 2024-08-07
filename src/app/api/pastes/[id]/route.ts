@@ -33,7 +33,7 @@ export async function GET(
         resolve(new NextResponse(JSON.stringify(row), { status: 200 }));
       }
     );
-  });
+  }) as Promise<NextResponse>;
 }
 
 export async function PUT(req: NextRequest) {
@@ -61,5 +61,5 @@ export async function PUT(req: NextRequest) {
         );
       }
     );
-  });
+  }) as Promise<NextResponse>;
 }

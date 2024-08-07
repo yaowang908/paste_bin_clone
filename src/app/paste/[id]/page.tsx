@@ -8,6 +8,7 @@ import TextArea from "@/components/TextArea";
 import HighlightedTextArea from "@/components/HightlightedTextArea";
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { type Paste } from "@/app/page";
+import { Button } from "@/components/ui/button";
 
 interface PasteViewProps {
   params: { id: string }
@@ -56,7 +57,7 @@ const PasteView: React.FC<PasteViewProps> = ({ params }) => {
     if (data && !isLoading) {
       const localToken = localStorage.getItem('pasteToken');
       setCanEdit(token === localToken);
-      setExpired(new Date().getTime() > data.expirationDate);
+      setExpired(!!data.expirationDate && (new Date().getTime() > data.expirationDate));
       setContent(data.content);
     }
   }, [data, isLoading, token]);
@@ -84,12 +85,13 @@ const PasteView: React.FC<PasteViewProps> = ({ params }) => {
           <TextArea value={content} onChange={(e) => setContent(e.target.value)} readOnly={!canEdit} />
           {/* <HighlightedTextArea value={content} onChange={(e) => setContent(e.target.value)} readOnly={!canEdit} language="javascript" /> */}
           {canEdit && (
-            <button
-              className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
+            <Button
               onClick={handleEdit}
+              variant="outline"
+              className="mt-4"
             >
               Save
-            </button>
+            </Button>
           )}
         </>
       )}

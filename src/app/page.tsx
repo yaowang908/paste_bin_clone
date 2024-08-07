@@ -7,6 +7,15 @@ import { parseExpiration } from "@/utils/parseExpiration";
 import TextArea from "@/components/TextArea";
 import HighlightedTextArea from "@/components/HightlightedTextArea";
 import { useMutation } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 
 export interface Paste {
   id: string;
@@ -58,25 +67,34 @@ const Home: React.FC = () => {
     <div>
       <TextArea value={content} onChange={(e) => setContent(e.target.value)} readOnly={false} />
       {/* <HighlightedTextArea value={content} onChange={(e) => setContent(e.target.value)} readOnly={false} language="javascript" /> */}
-      <form className="max-w-sm mx-auto">
-        <label htmlFor="expirationTime" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an option</label>
-        <select
-          id="expirationTime"
-          value={expiration}
-          onChange={(e) => setExpiration(e.target.value)}
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+      <div className="flex items-end justify-between mt-4">
+        <form className="max-w-sm">
+          <label htmlFor="expirationTime" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select an expiration time</label>
+          <Select
+            value={expiration}
+            onValueChange={(value) => setExpiration(value)}
+            defaultValue={undefined}
+          >
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Set expiration time" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="10m">10 minutes</SelectItem>
+              <SelectItem value="1h">1 hour</SelectItem>
+              <SelectItem value="1d">1 day</SelectItem>
+              <SelectItem value="5d">5 days</SelectItem>
+              <SelectItem value="15d">15 days</SelectItem>
+            </SelectContent>
+          </Select>
+        </form>
+        <Button
+          variant="outline"
+          onClick={handleSubmit}
+          disabled={!content}
         >
-          <option value="10m">10 minutes</option>
-          <option value="1h">1 hour</option>
-          <option value="1d">1 day</option>
-        </select>
-      </form>
-      <button
-        className="text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700"
-        onClick={handleSubmit}
-      >
-        Submit
-      </button>
+          Submit
+        </Button>
+      </div>
     </div>
   )
 }

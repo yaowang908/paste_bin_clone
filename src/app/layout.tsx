@@ -3,6 +3,8 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import Providers from "./providers";
+import { ThemeProvider } from "@/components/theme-provider"
+import { ModeToggle } from "@/components/ModeToggle";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,14 +22,24 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <Providers>
-          <div className="bg-slate-900 text-slate-200 w-full h-full min-h-screen px-5 py-5">
-            <div className="container mx-auto">
-              <Header />
-              {children}
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Providers>
+            <div className="w-full h-full min-h-screen px-5 py-5">
+              <div className="absolute top-5 right-10">
+                <ModeToggle />
+              </div>
+              <div className="container mx-auto">
+                <Header />
+                {children}
+              </div>
             </div>
-          </div>
-        </Providers>
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -2,6 +2,9 @@
 
 This project is a simple Pastebin clone built with Next.js, Tailwind CSS, and PrismJS. It allows users to create, view, and edit text pastes with syntax highlighting.
 
+## TODO
+- [ ] **Syntax Highlighting**: PrismJS 
+
 ## Features
 
 - Create text pastes with a unique URL for sharing.
@@ -12,7 +15,6 @@ This project is a simple Pastebin clone built with Next.js, Tailwind CSS, and Pr
 ## Tech Stack
 
 - **Frontend**: Next.js, React, Tailwind CSS
-- **Syntax Highlighting**: PrismJS with `react-syntax-highlighter`
 - **State Management**: React hooks and local storage
 
 ## Getting Started

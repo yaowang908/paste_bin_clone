@@ -33,6 +33,7 @@ jobs:
           cd paste_bin_clone
           git pull origin main
           npm install
+          pm2 stop "paste-bin-clone"
           npm run build
-          pm2 restart paste-bin-clone || pm2 start npm --name "paste-bin-clone" -- start
+          pm2 start npm --name "paste-bin-clone" -- start
         EOF

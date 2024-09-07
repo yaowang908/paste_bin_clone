@@ -43,6 +43,7 @@ const PasteView: React.FC<PasteViewProps> = ({ params }) => {
   const [content, setContent] = useState('');
   const [canEdit, setCanEdit] = useState(false);
   const [expired, setExpired] = useState(false);
+  const [language, setLanguage] = useState('javascript');
   const searchParams = useSearchParams();
   const token = searchParams.get('token');
 
@@ -82,8 +83,14 @@ const PasteView: React.FC<PasteViewProps> = ({ params }) => {
         <div>This paste has expired.</div>
       ) : (
         <>
-          <TextArea value={content} onChange={(e) => setContent(e.target.value)} readOnly={!canEdit} />
-          {/* <HighlightedTextArea value={content} onChange={(e) => setContent(e.target.value)} readOnly={!canEdit} language="javascript" /> */}
+          {/* <TextArea value={content} onChange={(e) => setContent(e.target.value)} readOnly={!canEdit} /> */}
+          <HighlightedTextArea
+            value={content}
+            onChange={(e) => setContent(e)}
+            onLanguageChange={(lang) => { setLanguage(lang) }}
+            readOnly={!canEdit}
+            language={language}
+          />
           {canEdit && (
             <Button
               onClick={handleEdit}

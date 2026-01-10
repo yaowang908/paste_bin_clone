@@ -24,5 +24,5 @@ This project is a simple Pastebin clone built with Next.js, Tailwind CSS, and Pr
 Make sure you have the following installed:
 
 - Node.js (v14 or later)
-- npm or yarn
+- Bun (v1.0 or later)
 -

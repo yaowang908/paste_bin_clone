@@ -1,0 +1,15 @@
+node_modules
+dist
+.git
+.github
+data
+openspec
+.claude
+.devcontainer
+.tanstack
+coverage
+*.md
+.env
+.env*
+Dockerfile
+.dockerignore

@@ -37,6 +37,9 @@ next-env.d.ts
 *.sqlite-journal
 src/db/database.sqlite
 
+# runtime state (DATA_DIR default)
+data
+
 # editor
 .vscode/*
 !.vscode/extensions.json

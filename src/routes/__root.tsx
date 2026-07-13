@@ -1,10 +1,17 @@
 import { Outlet, createRootRoute } from '@tanstack/react-router'
-import { TanStackRouterDevtools } from '@tanstack/router-devtools'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ThemeProvider } from '../components/theme-provider'
 import Header from '../components/Header'
 import { ModeToggle } from '../components/ModeToggle'
 import React from 'react'
+
+const TanStackRouterDevtools = import.meta.env.DEV
+    ? React.lazy(() =>
+          import('@tanstack/router-devtools').then((mod) => ({
+              default: mod.TanStackRouterDevtools,
+          })),
+      )
+    : () => null
 
 const queryClient = new QueryClient()
 
@@ -26,7 +33,11 @@ export const Route = createRootRoute({
                         <Outlet />
                     </div>
                 </div>
-                <TanStackRouterDevtools />
+                {import.meta.env.DEV && (
+                    <React.Suspense fallback={null}>
+                        <TanStackRouterDevtools />
+                    </React.Suspense>
+                )}
             </ThemeProvider>
         </QueryClientProvider>
     ),
